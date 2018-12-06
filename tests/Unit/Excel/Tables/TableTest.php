@@ -1,6 +1,7 @@
 <?php
 namespace Tests\Unit;
 
+use App\Excel\Rows\Row;
 use App\Excel\Tables\TableHeadless;
 use Tests\TestCase;
 
@@ -39,7 +40,17 @@ class TableTest extends TestCase {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('Incorrect row size');
 
-        $table->addRow([1]);
+        $table->addRow([1, 5, 2, 1, 2]);
+    }
+
+    /**
+     * @test
+     */
+    public function adding_smaller_row_that_width_fills_row_with_null() {
+        $table = new TableHeadless(2);
+        $row = new Row([1]);
+        $table->addRow($row);
+        $this->assertEquals([1, null], $table->getRow()->getData());
     }
 
 }

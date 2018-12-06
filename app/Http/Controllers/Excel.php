@@ -12,7 +12,7 @@ class Excel extends Controller
         return view('Excel.index');
     }
 
-    public function set(Request $request) {
+    public function test(Request $request) {
         $spreadSheet = new Spreadsheet();
         $sheet = $spreadSheet->getActiveSheet();
         $sheet->getCellByColumnAndRow(1,1)->setValue($request->post('cell_data'));

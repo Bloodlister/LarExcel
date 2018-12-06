@@ -10,4 +10,8 @@ abstract class Base {
     abstract public function getCurrentValue();
 
     abstract public function next() : Base;
+
+    public function getLength() {
+        return count($this->data);
+    }
 }

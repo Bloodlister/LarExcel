@@ -31,7 +31,7 @@ class TableWithHeadersTest extends TestCase {
     public function adding_non_assoc_array_row_to_table()
     {
         $this->table->addRow([1, 2, 3]);
-        $tableRow = $this->table->nextRow()->nextRow()->getRowData();
+        $tableRow = $this->table->nextRow()->nextRow()->getRow()->getData();
         $this->assertEquals([
             'foo' => 1,
             'bar' => 2,
@@ -49,7 +49,7 @@ class TableWithHeadersTest extends TestCase {
             'zas' => 3,
             'bar' => 2,
         ]);
-        $tableRow = $this->table->nextRow()->nextRow()->getRowData();
+        $tableRow = $this->table->nextRow()->nextRow()->getRow()->getData(0);
         $this->assertEquals([
             'foo' => 1,
             'bar' => 2,

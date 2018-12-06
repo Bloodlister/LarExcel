@@ -23,7 +23,7 @@ class TableWithHeaders extends Base {
         $this->addRow($tableHeaders);
     }
 
-    public function addRow(array $row) : Base {
+    public function addRow($row) : Base {
         if ($this->validRow($row)) {
             $newRow = $this->formatRow($row);
             array_push($this->rows, $newRow);

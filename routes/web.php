@@ -12,4 +12,4 @@
 */
 
 Route::get('/', 'Excel@index');
-Route::post('/', 'Excel@set');
+Route::post('/', 'Excel@test');

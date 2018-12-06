@@ -14,13 +14,13 @@ class ExecutorTest extends TestCase {
     public function getting_results()
     {
         $executor = new QueryExecutor();
-        $result = $executor->getResults('mysql', 'players', [
+        $result = $executor->getResults('tests', 'users', [
             'select' => [DB::raw('COUNT(*) as count')],
             'where' => [
-                [ 'level', '>', 30]
+                [ 'rating', '>', 3.5]
             ]
-        ], 'get');
+        ], 'first');
 
-        var_dump($result); exit();
+        $this->assertTrue($result->count > 0);
     }
 }
