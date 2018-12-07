@@ -25,7 +25,7 @@ class TableTest extends TestCase {
      */
     public function adding_row_to_table(TableHeadless $table)
     {
-        $table->addRow([1, 2, 3]);
+        $table->addRow(new Row([1, 2, 3]));
         $this->assertEquals(1, $table->getRowsCount());
     }
 
@@ -40,7 +40,7 @@ class TableTest extends TestCase {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('Incorrect row size');
 
-        $table->addRow([1, 5, 2, 1, 2]);
+        $table->addRow(new Row([1, 5, 2, 1, 2]));
     }
 
     /**

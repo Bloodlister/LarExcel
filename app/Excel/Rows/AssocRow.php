@@ -9,7 +9,8 @@ class AssocRow extends Base {
     /** @var string $currentHeader */
     private $currentHeader = null;
 
-    public function __construct(array $blueprint, array $data) {
+    public function __construct(array $data) {
+        $blueprint = array_keys($data);
         if (count($blueprint) > 0) {
             $this->headers = array_values($blueprint);
             $this->currentHeader = $this->headers[0];

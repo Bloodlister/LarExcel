@@ -2,7 +2,6 @@
 namespace App\Excel\Tables;
 
 use App\Excel\Rows\Base as Row;
-use App\Excel\Rows\Factory;
 
 abstract class Base {
     /** @var int $width */
@@ -44,7 +43,9 @@ abstract class Base {
      * @return Base
      * @throws \Exception
      */
-    public function addRow($row) : Base {
+    public function addRow(Row $row) : Base {
+        $this->formatRow($row);
+
         if ($this->validRow($row)) {
             array_push($this->rows, $row);
         }
@@ -99,19 +100,29 @@ abstract class Base {
     }
 
     /**
-     * @param $row
+     * @param Row $row
      * @return bool
      * @throws \Exception
      */
-    private function validRow($row) {
-        if (is_array($row)) {
-            $row = Factory::createRowFromData($row);
-        }
+    private function validRow(Row $row) : bool {
         if ($row->getLength() <= $this->tableWidth) {
             return true;
+        } else {
+            throw new \Exception('Incorrect row size');
         }
 
         return false;
+    }
+
+    /**
+     * @param Row $row
+     */
+    private function formatRow(Row $row) {
+        if ($row->getLength() < $this->getTableWidth()) {
+            while ($row->getLength() < $this->getTableWidth()) {
+                $row->extend();
+            }
+        }
     }
 
 

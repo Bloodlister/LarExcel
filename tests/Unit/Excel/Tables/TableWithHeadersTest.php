@@ -2,6 +2,8 @@
 
 namespace Tests\Unit;
 
+use App\Excel\Rows\Row;
+use App\Excel\Rows\AssocRow;
 use App\Excel\Tables\TableWithHeaders;
 use Tests\TestCase;
 
@@ -12,7 +14,7 @@ class TableWithHeadersTest extends TestCase {
 
     protected function setUp() {
         parent::setUp();
-        $this->table = new TableWithHeaders(['foo', 'bar', 'zas']);
+        $this->table = new TableWithHeaders(new Row(['foo', 'bar', 'zas']));
     }
 
     /** 
@@ -20,7 +22,7 @@ class TableWithHeadersTest extends TestCase {
      */
     public function created_table_has_correct_width_according_to_headers_count()
     {
-        $table = new TableWithHeaders(['Foo', 'Bar', 'Zas']);
+        $table = new TableWithHeaders(new Row(['Foo', 'Bar', 'Zas']));
         $this->assertEquals(3, $table->getTableWidth());
         $this->assertEquals(1, $table->getRowsCount());
     }
@@ -30,7 +32,7 @@ class TableWithHeadersTest extends TestCase {
      */
     public function adding_non_assoc_array_row_to_table()
     {
-        $this->table->addRow([1, 2, 3]);
+        $this->table->addRow(new Row([1, 2, 3]));
         $tableRow = $this->table->nextRow()->nextRow()->getRow()->getData();
         $this->assertEquals([
             'foo' => 1,
@@ -44,11 +46,11 @@ class TableWithHeadersTest extends TestCase {
      */
     public function adding_assoc_array_row_to_table()
     {
-        $this->table->addRow([
+        $this->table->addRow(new AssocRow([
             'foo' => 1,
             'zas' => 3,
             'bar' => 2,
-        ]);
+        ]));
         $tableRow = $this->table->nextRow()->nextRow()->getRow()->getData(0);
         $this->assertEquals([
             'foo' => 1,

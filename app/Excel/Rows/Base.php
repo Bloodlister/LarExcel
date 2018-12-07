@@ -14,4 +14,12 @@ abstract class Base {
     public function getLength() {
         return count($this->data);
     }
+
+    public function getData() {
+        return $this->data;
+    }
+
+    public function extend() {
+        $this->data[] = null;
+    }
 }

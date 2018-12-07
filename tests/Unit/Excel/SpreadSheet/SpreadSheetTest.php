@@ -2,6 +2,7 @@
 
 namespace Tests\Unit;
 
+use App\Excel\Rows\Row;
 use App\Excel\SpreadSheet\SpreadSheet;
 use App\Excel\Tables\TableHeadless;
 use Tests\TestCase;
@@ -15,8 +16,8 @@ class SpreadSheetTest extends TestCase {
     {
         $spreadSheet = new SpreadSheet();
         $table = new TableHeadless(2);
-        $table->addRow(['a', 'b']);
-        $table->addRow(['b', 'c']);
+        $table->addRow(new Row(['a', 'b']));
+        $table->addRow(new Row(['b', 'c']));
         $spreadSheet->addTable($table);
         $this->assertEquals(1, count($spreadSheet->getTables()));
 
@@ -32,8 +33,8 @@ class SpreadSheetTest extends TestCase {
     public function tables_in_spreadsheet_get_their_starting_coordinates_set_correctly(SpreadSheet $spreadSheet)
     {
         $table = new TableHeadless(2);
-        $table->addRow(['c', 'd']);
-        $table->addRow(['b', 's']);
+        $table->addRow(new Row(['c', 'd']));
+        $table->addRow(new Row(['b', 's']));
         $spreadSheet->addTable($table);
 
         $newTable = clone $table;
