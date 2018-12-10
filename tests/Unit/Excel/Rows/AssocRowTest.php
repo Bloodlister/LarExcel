@@ -12,7 +12,7 @@ class AssocRowTest extends TestCase {
      */
     public function assoc_row_returns_correct_value_when_called_for()
     {
-        $row = new AssocRow(['foo', 'bar', 'zas'], [
+        $row = new AssocRow([
             'foo' => 1,
             'bar' => 2,
             'zas' => 3,

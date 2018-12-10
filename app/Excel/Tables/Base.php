@@ -2,6 +2,9 @@
 namespace App\Excel\Tables;
 
 use App\Excel\Rows\Base as Row;
+use Ouzo\Utilities\Arrays;
+use Ouzo\Utilities\Comparator;
+use Ouzo\Utilities\Objects;
 
 abstract class Base {
     /** @var int $width */
@@ -62,11 +65,15 @@ abstract class Base {
     }
 
 
-    public function nextRow() : Base {
-        $this->currentRowIndex += 1;
-        if ($this->currentRowIndex >= $this->getRowsCount()) {
-            $this->currentRowIndex = $this->getRowsCount() - 1;
+    /**
+     * @return Base|bool
+     */
+    public function nextRow() {
+        if ($this->currentRowIndex + 1 >= $this->getRowsCount()) {
+            return false;
         }
+
+        $this->currentRowIndex += 1;
         return $this;
     }
 
@@ -108,6 +115,7 @@ abstract class Base {
         if ($row->getLength() <= $this->tableWidth) {
             return true;
         } else {
+//            var_dump($row, $row->getLength(), $this->tableWidth); exit();
             throw new \Exception('Incorrect row size');
         }
 
@@ -124,6 +132,34 @@ abstract class Base {
             }
         }
     }
+
+    /**
+     * @param $linkingValue
+     * @return bool
+     */
+    public function containsValue($linkingValue) : Bool {
+        $this->resetRowIndex();
+        while ($this->nextRow()) {
+            $rowData = $this->getRow()->getData();
+            foreach ($linkingValue as $key => $value) {
+                if (array_key_exists($key, $rowData) && $rowData[$key] == $value) {
+                    return true;
+                } else if (array_key_exists($key, $rowData) && $rowData[$key] != $value) {
+                    break;
+                }
+            }
+        }
+        return false;
+    }
+
+    public function resetRowIndex() {
+        $this->currentRowIndex = 0;
+    }
+
+    public function orderRows($comparators) {
+        $result = Arrays::sort($this->rows, ...$comparators);
+    }
+    
 
 
 }

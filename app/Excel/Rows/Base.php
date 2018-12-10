@@ -18,8 +18,4 @@ abstract class Base {
     public function getData() {
         return $this->data;
     }
-
-    public function extend() {
-        $this->data[] = null;
-    }
 }

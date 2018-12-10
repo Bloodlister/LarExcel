@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "585fa9a9247c58edbf9d3fd774f3edb6",
-    "content-hash": "cfea5233b44ec66f8fb7294f4b808124",
+    "hash": "4dc3e0a990adabd3b0960380b572751e",
+    "content-hash": "5c6970c70d02ab11ff34b147fd4b1564",
     "packages": [
         {
             "name": "dnoegel/php-xdg-base-dir",
@@ -745,6 +745,49 @@
                 "storage"
             ],
             "time": "2018-11-23 23:41:29"
+        },
+        {
+            "name": "letsdrink/ouzo-goodies",
+            "version": "1.6.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/letsdrink/ouzo-goodies.git",
+                "reference": "64df36acec1371cd055e9360f11fb78a563f7129"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/letsdrink/ouzo-goodies/zipball/64df36acec1371cd055e9360f11fb78a563f7129",
+                "reference": "64df36acec1371cd055e9360f11fb78a563f7129",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Ouzo\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Ouzo developers",
+                    "email": "ouzo-framework@googlegroups.com"
+                }
+            ],
+            "description": "Utility classes, test assertions and mocking framework extracted from Ouzo framework.",
+            "homepage": "http://ouzoframework.org/",
+            "keywords": [
+                "TDD",
+                "asserts",
+                "mock",
+                "php",
+                "test",
+                "utilities",
+                "utils"
+            ],
+            "time": "2016-05-23 07:22:48"
         },
         {
             "name": "markbaker/complex",

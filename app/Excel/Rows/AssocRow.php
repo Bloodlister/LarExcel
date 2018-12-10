@@ -40,4 +40,8 @@ class AssocRow extends Base {
 
         return $this;
     }
+
+    public function extend($field, $value = null) {
+        $this->data[$field] = $value;
+    }
 }

@@ -13,7 +13,7 @@ class TableWithHeaders extends Base {
      * It's one ahead because the first row is saved for the headers
      * @var int $currentRowIndex
      */
-    protected $currentRowIndex = 1;
+    protected $currentRowIndex = 0;
 
     /** @var array|String[] $tableHeader Contains the names of each column in the  */
     private $tableHeader;
@@ -42,7 +42,7 @@ class TableWithHeaders extends Base {
         if (is_array($row)) {
             $row = Factory::createRowFromData($row);
         }
-        if ($row->getLength() == $this->tableWidth) {
+        if ($row->getLength() <= $this->tableWidth) {
             return true;
         } else {
             throw new \Exception("Invalid row size");
@@ -53,11 +53,21 @@ class TableWithHeaders extends Base {
         if (empty(array_diff($this->tableHeader->getData(), $row->getData()))) {
             return $row;
         } else {
-            $newRow = [];
-            foreach ($this->tableHeader as $headerIndex => $tableHeader) {
-                $newRow[$tableHeader] = $row[$headerIndex];
+            if ($row instanceof Row) {
+                $newRow = [];
+                $rowData = array_values($row->getData());
+                foreach ($this->tableHeader->getData() as $headerIndex => $tableHeader) {
+                    $newRow[$tableHeader] = $rowData[$headerIndex];
+                }
+                return new AssocRow($newRow);
+            } else {
+                foreach ($this->getHeaders() as $header) {
+                    if (!array_key_exists($header, $row->getData())) {
+                        $row->extend($header);
+                    }
+                }
+                return $row;
             }
-            return new AssocRow($this->tableHeader->getData(), $newRow);
         }
     }
 

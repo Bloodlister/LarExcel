@@ -12,6 +12,7 @@ abstract class Base {
     protected $endOfLastTable = 1;
 
     public function addTable(Table $table) {
+        $this->validateTable($table);
         if (empty($this->tables)) {
             $table->setStartX(1);
             $this->endOfLastTable = $table->getTableWidth();
@@ -19,11 +20,15 @@ abstract class Base {
             $table->setStartX($this->endOfLastTable + $table->getMargin() + 1);
             $this->endOfLastTable += $table->getMargin() + $table->getTableWidth();
         }
-
         $this->tables[] = $table;
     }
 
-    public function  getTables() {
+    /**
+     * @return Table[]
+     */
+    public function getTables() {
         return $this->tables;
     }
+
+    protected function validateTable($table) {}
 }

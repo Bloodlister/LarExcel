@@ -17,4 +17,8 @@ class Row extends Base {
         $this->currentIndex += 1;
         return $this;
     }
+
+    public function extend() {
+        $this->data[] = null;
+    }
 }
