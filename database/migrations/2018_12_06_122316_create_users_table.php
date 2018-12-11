@@ -19,6 +19,13 @@ class CreateUsersTable extends Migration
             $table->float('rating', 8, 1);
             $table->timestamps();
         });
+
+        Schema::connection("tests2")->create('users', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('username', 24);
+            $table->float('rating', 8, 1);
+            $table->timestamps();
+        });
     }
 
     /**
@@ -29,5 +36,6 @@ class CreateUsersTable extends Migration
     public function down()
     {
         Schema::connection("tests")->dropIfExists('users');
+        Schema::connection("tests2")->dropIfExists('users');
     }
 }

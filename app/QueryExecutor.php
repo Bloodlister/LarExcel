@@ -7,15 +7,24 @@ use Illuminate\Support\Facades\DB;
 
 class QueryExecutor
 {
+    private $connections = [];
 
-    public function getResults(string $mysqlConnection, string $table, array $query, string $returnFunction) {
-        $table = DB::connection($mysqlConnection)->table($table);
-        foreach ($query as $action => $params) {
-            $method = "action" . strtoupper($action);
-            $this->$method($table, $params);
+    public function __construct(array $connections) {
+        $this->connections = $connections;
+    }
+
+    public function getResults(string $tableName, array $query) {
+        $results = [];
+        foreach ($this->connections as $connection) {
+            $table = DB::connection($connection)->table($tableName);
+            foreach ($query as $action => $params) {
+                $method = "action" . strtoupper($action);
+                $this->$method($table, $params);
+            }
+            $results[$connection] = $table->get()->toArray();
         }
 
-        return $table->$returnFunction();
+        return $results;
     }
 
     private function actionSelect(Builder $table, $params) {
@@ -46,7 +55,11 @@ class QueryExecutor
         $table->groupBy(...$params);
     }
 
-    private function count(Builder $table, $params) {
+    private function actionCount(Builder $table, $params) {
         $table->count($params);
+    }
+
+    private function actionLimit(Builder $table, $params) {
+        $table->limit($params);
     }
 }

@@ -156,10 +156,4 @@ abstract class Base {
         $this->currentRowIndex = 0;
     }
 
-    public function orderRows($comparators) {
-        $result = Arrays::sort($this->rows, ...$comparators);
-    }
-    
-
-
 }

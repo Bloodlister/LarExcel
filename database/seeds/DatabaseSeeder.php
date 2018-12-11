@@ -12,5 +12,6 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         factory(\App\Tests\User::class, 100)->connection('tests')->create();
+        factory(\App\Tests\User::class, 100)->connection('tests2')->create();
     }
 }
