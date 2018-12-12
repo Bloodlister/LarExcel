@@ -21,7 +21,9 @@ class QueryExecutor
                 $method = "action" . strtoupper($action);
                 $this->$method($table, $params);
             }
-            $results[$connection] = $table->get()->toArray();
+            $tableResults = $table->get()->toArray();
+            $tableResults = $this->fixStdClasses($tableResults);
+            $results[$connection] = $tableResults;
         }
 
         return $results;
@@ -61,5 +63,14 @@ class QueryExecutor
 
     private function actionLimit(Builder $table, $params) {
         $table->limit($params);
+    }
+
+    private function fixStdClasses($tableResults) {
+        foreach ($tableResults as $index => $tableResult) {
+            if ($tableResult instanceof \stdClass) {
+                $tableResults[$index] = get_object_vars($tableResult);
+            }
+        }
+        return $tableResults;
     }
 }
