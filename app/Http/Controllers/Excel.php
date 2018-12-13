@@ -8,6 +8,9 @@ use App\QueryExecutor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Ouzo\Utilities\Comparator;
+use PhpOffice\PhpSpreadsheet\Cell\Cell;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Ods;
 
 class Excel extends Controller
 {
@@ -17,7 +20,7 @@ class Excel extends Controller
 
     public function test(Request $request) {
         $queryExecutor = new QueryExecutor(['tests', 'tests2']);
-        $result = $queryExecutor->getResults('users', [
+        $results = $queryExecutor->getResults('users', [
             'select' => [
                 'rating',
                 DB::raw('COUNT(*) as user_count')
@@ -29,17 +32,23 @@ class Excel extends Controller
             'limit' => 20
         ]);
 
-        $result = Equalizer::equalize($result, ['rating']);
-        $result = Sort::sortMultipleArrays($result, [
+        $results = Equalizer::equalize($results, ['rating']);
+        $results = Sort::sortMultipleArrays($results, [
             Comparator::compareBy('rating'),
         ]);
-        var_dump($result); exit();
         
-//        $spreadSheet = new Spreadsheet();
-//        $sheet = $spreadSheet->getActiveSheet();
-//
-//        $odsFile = new Ods($spreadSheet);
-//        $odsFile->save('excel/hello.ods');
-//        return response()->download('excel/hello.ods');
+        $spreadSheet = new Spreadsheet();
+        $sheet = $spreadSheet->getActiveSheet();
+
+        $column = 1;
+        foreach ($results as $result) {
+            $cell = $sheet->getCellByColumnAndRow($column, 1);
+            $sheet->fromArray($result, 'a', $cell->getCoordinate(), true);
+            $column += 3;
+        }
+
+        $odsFile = new Ods($spreadSheet);
+        $odsFile->save('excel/hello.ods');
+        return response()->download('excel/hello.ods');
     }
 }
